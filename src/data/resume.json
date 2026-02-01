@@ -1,0 +1,26 @@
+{
+  "education": [
+    {
+      "school": "某知名大学",
+      "degree": "计算机科学与技术 学士",
+      "period": "2018 - 2022"
+    }
+  ],
+  "experience": [
+    {
+      "company": "某互联网大厂",
+      "role": "高级前端开发工程师",
+      "period": "2022 - 至今",
+      "achievements": [
+        "负责核心业务线的架构设计与开发",
+        "优化首屏加载速度提升 50%",
+        "主导建立团队组件库规范"
+      ]
+    }
+  ],
+  "skills": {
+    "前端": ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+    "工程化": ["Webpack", "Vite", "CI/CD"],
+    "其他": ["Node.js", "GraphQL", "Docker"]
+  }
+}

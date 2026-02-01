@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Smart-Portfolio-Starter",
+    "description": "一个基于 React 18 的高性能个人主页模板，支持 MDX 和自动部署。",
+    "techStack": ["React", "TypeScript", "Vite"],
+    "githubUrl": "https://github.com",
+    "liveDemo": "#"
+  },
+  {
+    "name": "Auto-Doc-Generator",
+    "description": "自动化代码文档生成工具，支持多种编程语言。",
+    "techStack": ["Node.js", "Go", "Markdown"],
+    "githubUrl": "https://github.com",
+    "liveDemo": "#"
+  }
+]
