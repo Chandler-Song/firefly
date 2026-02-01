@@ -12,7 +12,7 @@ import Achievements from './pages/Achievements'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/firefly">
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
