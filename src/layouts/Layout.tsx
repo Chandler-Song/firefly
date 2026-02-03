@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Sun, Moon, Home, User, Share2, BookOpen, PenTool, LayoutDashboard, Briefcase, Award } from 'lucide-react'
+import { Menu, X, Sun, Moon, Home, User, Share2, BookOpen, PenTool, LayoutDashboard, Briefcase, Award, StickyNote } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -16,7 +16,7 @@ const navItems = [
   { name: '博客', path: '/blog', icon: PenTool },
   { name: '洞察', path: '/insights', icon: LayoutDashboard },
   { name: '工具', path: '/tools', icon: Briefcase },
-  { name: '笔记', path: '/books', icon: BookOpen },
+  { name: '笔记', path: '/notes', icon: StickyNote },
   { name: '成就', path: '/achievements', icon: Award },
 ]
 

@@ -64,7 +64,8 @@ export async function getModuleContent(moduleName: string): Promise<Post[]> {
     // 使用相对路径模式以提高 Vite 兼容性
     const modules = import.meta.glob('../content/**/*.md', { query: '?raw', eager: true, import: 'default' })
     const posts: Post[] = []
-    const searchPattern = `/content/${moduleName}/`
+    // 移除路径匹配中的多余斜杠，增强兼容性
+    const searchPattern = `content/${moduleName}/`
 
     for (const path in modules) {
       if (path.includes(searchPattern)) {
