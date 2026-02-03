@@ -25,25 +25,33 @@ export function parseMarkdown(mdContent: string, slug: string): Post {
     const yamlBlock = match[1];
     content = mdContent.replace(frontmatterRegex, '').trim();
     
-    // 简单的 YAML 键值对解析
+    // 增强型解析：处理可能的跨行键值对
     const lines = yamlBlock.split('\n');
+    let currentKey = '';
+    let currentValue = '';
+
     lines.forEach(line => {
+      const trimmedLine = line.trim();
       const colonIndex = line.indexOf(':');
-      if (colonIndex !== -1) {
-        const key = line.slice(0, colonIndex).trim();
-        let value = line.slice(colonIndex + 1).trim();
-        
-        // 去除引号
-        value = value.replace(/^["']|["']$/g, '');
-        
-        // 处理数组格式 [a, b]
-        if (value.startsWith('[') && value.endsWith(']')) {
-          data[key] = value.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
-        } else {
-          data[key] = value;
+      
+      // 判断是否是新的 Key：存在冒号，且当前没有未闭合的 JSON 块
+      const isNewKey = colonIndex !== -1 && 
+                       !trimmedLine.startsWith('-') && 
+                       !isInsideJson(currentValue);
+
+      if (isNewKey) {
+        if (currentKey) {
+          processKeyValue(data, currentKey, currentValue);
         }
+        currentKey = line.slice(0, colonIndex).trim();
+        currentValue = line.slice(colonIndex + 1).trim();
+      } else {
+        currentValue += ' ' + trimmedLine;
       }
     });
+    if (currentKey) {
+      processKeyValue(data, currentKey, currentValue);
+    }
   }
 
   return {
@@ -55,6 +63,37 @@ export function parseMarkdown(mdContent: string, slug: string): Post {
     summary: data.summary || '',
     content,
     ...data
+  }
+}
+
+function isInsideJson(value: string): boolean {
+  const v = value.trim();
+  if (v.startsWith('[') && !v.endsWith(']')) return true;
+  if (v.startsWith('{') && !v.endsWith('}')) return true;
+  // 简单的嵌套检查（可选增强）
+  const openBrackets = (v.match(/\[/g) || []).length;
+  const closeBrackets = (v.match(/\]/g) || []).length;
+  const openBraces = (v.match(/\{/g) || []).length;
+  const closeBraces = (v.match(/\}/g) || []).length;
+  return openBrackets > closeBrackets || openBraces > closeBraces;
+}
+
+function processKeyValue(data: any, key: string, value: string) {
+  value = value.trim().replace(/^["']|["']$/g, '');
+  
+  // 尝试解析 JSON 格式（支持跨行合并后的数组和对象）
+  if ((value.startsWith('[') && value.endsWith(']')) || (value.startsWith('{') && value.endsWith('}'))) {
+    try {
+      data[key] = JSON.parse(value);
+    } catch (e) {
+      if (value.startsWith('[') && value.endsWith(']')) {
+        data[key] = value.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+      } else {
+        data[key] = value;
+      }
+    }
+  } else {
+    data[key] = value;
   }
 }
 

@@ -11,6 +11,7 @@ import Books from './pages/Books'
 import Achievements from './pages/Achievements'
 import Notes from './pages/Notes'
 import Visualization from './pages/Visualization'
+import Interviews from './pages/Interviews'
 import Detail from './pages/Detail'
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
 
           <Route path="/visualization" element={<Visualization />} />
           <Route path="/visualization/:slug" element={<Detail module="visualization" />} />
+
+          <Route path="/interviews" element={<Interviews />} />
+          <Route path="/interviews/:slug" element={<Detail module="interviews" />} />
           
           <Route path="/books" element={<Books />} />
           <Route path="/achievements" element={<Achievements />} />

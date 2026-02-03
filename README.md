@@ -145,6 +145,92 @@ git push origin main
 *   **图片无法显示**：
     *   **解决**：相对路径引用的图片在子路径部署时易失效。建议将图片存放在 `public/assets/` 并使用绝对路径访问。
     
+    ## 🎙️ 对话访谈模块指南 (Interviews Guide)
+    
+    项目包含一个功能强大的“对话访谈”模块，支持通过 Markdown 驱动自动生成嘉宾主页与访谈对话。
+    
+    ### 1. 快速创建访谈
+    
+    1.  **新建文件**：在 `src/content/interviews/` 目录下创建一个新的 `.md` 文件。
+    2.  **命名规范**：遵循 `YYYY-MM-DD-受访者姓名-领域关键词.md` 格式。
+        *   *示例*：`2026-02-04-sarah-chen-ai-agent-field.md`
+    3.  **编写 Frontmatter**：这是驱动页面渲染的核心数据。
+    
+    ### 2. Frontmatter 字段详解
+    
+    | 字段 | 类型 | 说明 |
+    | :--- | :--- | :--- |
+    | `title` | String | 访谈文章标题 |
+    | `date` | String | 发布日期 (用于排序，最新日期将显示在首页) |
+    | `category` | String | 固定为 `"Interview"` |
+    | `summary` | String | 访谈摘要，显示在列表页和首页模块 |
+    | `guestName` | String | 嘉宾姓名 |
+    | `guestTitle` | String | 嘉宾职衔 (如：首席科学家) |
+    | `guestOrg` | String | 嘉宾所属机构 |
+    | `guestAvatar` | URL | 嘉宾头像链接 |
+    | `guestDescription` | String | 嘉宾背景详述 |
+    | `guestAchievements` | Array | 嘉宾主要成就标签列表 |
+    | `interviewRecords` | Array | **核心对话流**：包含 timestamp, question, answer 对象 |
+    | `multimedia` | Array | **多媒体画廊**：包含 type, url, caption 对象 |
+    
+    ### 3. 配置示例模板
+    
+    ```markdown
+    ---
+    title: "访谈标题"
+    date: "2026-02-04"
+    category: "Interview"
+    summary: "这里是访谈摘要..."
+    guestName: "张三"
+    guestTitle: "技术专家"
+    guestOrg: "某某实验室"
+    guestAvatar: "https://example.com/avatar.png"
+    guestDescription: "详细背景介绍..."
+    guestAchievements: ["成就1", "成就2"]
+    interviewRecords: [
+      {
+        "timestamp": "10:00",
+        "question": "这里是问题内容？",
+        "answer": "这里是回答内容..."
+      }
+    ]
+    multimedia: [
+      {
+        "type": "image",
+        "url": "https://example.com/photo.jpg",
+        "caption": "图片说明"
+      }
+    ]
+    ---
+    # 更多背景
+    这里可以编写 Markdown 格式的访谈侧记或补充资料。
+    ```
+    
+    ### 4. 高级配置说明
+    
+    #### 多媒体画廊 (Multimedia)
+    *   **支持类型**：`image` (自动处理网格布局)、`video` (原生播放器)、`audio` (带动效的音频播放器)。
+    *   **网格布局**：
+        *   单张图片：在容器中优雅居中。
+        *   多张图片：自动切换为响应式网格布局（桌面端双列，移动端单列），带悬停缩放效果。
+    *   **容错处理**：若图片加载失败，系统会自动显示统一的占位占位图。
+    
+    #### 访谈对话流 (QA Stream)
+    *   **引号自动剥离**：解析器会自动移除回答内容前后的多余引号，并使用现代化的引用图标装饰。
+    *   **交互效果**：对话项在悬停时会触发左侧时间轴的动态高亮。
+    
+    ### 5. 主页显示逻辑
+    *   **自动置顶**：首页模块会扫描 `src/content/interviews/` 下的所有文件，并自动提取 **日期最新** 的一个进行展示。
+    *   **跳转逻辑**：点击首页访谈模块将直接进入该访谈的详情路由 `/interviews/[slug]`。
+    
+    ### 6. 技术实现与故障排查
+    *   **解析机制**：由于 YAML 默认不支持复杂的嵌套 JSON 数组，项目重写了 `src/utils/markdown.ts` 解析引擎，支持跨行识别未闭合的 JSON 块。
+    *   **TypeError: records.map is not a function**：
+        *   **排查**：检查 Markdown 文件中 `interviewRecords` 的 JSON 格式是否正确（特别是引号和括号的闭合）。
+        *   **解决**：确保 JSON 块前后没有多余的空行干扰解析逻辑。
+    
+    ---
+    
     ## 📜 开发过程记录 (Development History)
     
     ### 1. 基础环境配置与路由优化

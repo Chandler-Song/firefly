@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar } from 'lucide-react'
 import G2Chart from '../components/viz/G2Chart'
 import G6Graph from '../components/viz/G6Graph'
 import InfographicChart from '../components/viz/InfographicChart'
+import Interview from '../components/Interview'
 
 interface DetailProps {
   module: string
@@ -36,6 +37,45 @@ export default function Detail({ module }: DetailProps) {
 
   if (loading) return <div className="max-w-4xl mx-auto py-20 text-center animate-pulse">加载中...</div>
   if (!data) return <div className="max-w-4xl mx-auto py-20 text-center text-muted-foreground">内容暂未找到</div>
+
+  if (module === 'interviews') {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <button 
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-muted-foreground hover:text-primary mb-10 transition-colors group"
+        >
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 返回列表
+        </button>
+        
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <Interview 
+            guest={{
+              name: data.guestName,
+              title: data.guestTitle,
+              organization: data.guestOrg,
+              avatar: data.guestAvatar,
+              description: data.guestDescription,
+              achievements: data.guestAchievements || []
+            }}
+            records={data.interviewRecords || []}
+            multimedia={data.multimedia || []}
+          />
+          
+          {data.content && (
+            <div className="mt-16 pt-16 border-t">
+              <h3 className="text-2xl font-bold mb-8">更多背景</h3>
+              <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none text-lg">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {data.content}
+                </ReactMarkdown>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
