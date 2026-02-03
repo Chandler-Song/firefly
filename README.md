@@ -177,6 +177,69 @@ git push origin main
     ### 5. 文档沉淀与管理指南
     **核心任务**：建立标准化的内容运维体系。
     - **成果**：编写了详细的 CRUD 教程，涵盖新增、删除、修改、查询内容的标准流程与技术细节，确保项目的长期可维护性。
+    ### 6. 数据可视化系统集成
+    **核心任务**：引入 AntV G2/G6/Infographic 提供全方位的可视化能力。
+    - **组件开发**：
+        - `G2Chart.tsx`: 基于 G2 5.x 封装的声明式统计图表组件。
+        - `G6Graph.tsx`: 基于 G6 5.x 封装的关系图/树图组件，修复了 ESM 模块导出兼容性问题。
+        - `InfographicChart.tsx`: 基于 Infographic 0.2.x 封装的信息图表组件，支持极简 DSL。
+    - **渲染引擎**：在 `Detail.tsx` 中扩展 `react-markdown` 处理器，识别 `g2`、`g6` 和 `infographic` 代码块并动态渲染对应组件。
+    - **示例库**：创建 `src/content/visualization/gallery.md` 和 `infographic-gallery.md`，提供 15+ 种场景配置。
+
+## 📊 数据可视化指南 (Visualization Guide)
+
+项目集成了 AntV G2 (统计图表)、G6 (关系图谱) 与 Infographic (信息图表) 库，支持在 Markdown/MDX 中通过代码块直接渲染交互式图表。
+
+### 1. 快速上手
+
+在任何 Markdown 文件中，使用 `g2`、`g6` 或 `infographic` 语言标识的代码块并编写配置：
+
+#### Infographic 示例
+
+```infographic
+infographic list-row-simple-horizontal-arrow
+data
+  items
+    - label: 步骤1
+      desc: 描述1
+```
+
++### 2. 图表分类索引
++
++详细示例请访问项目中的 [图表全集](src/content/visualization/gallery.md)。
++
+| 分类 | 支持类型 |
+| :--- | :--- |
+| **G2 统计图表** | 折线图、柱状图、饼图/玫瑰图、散点气泡图、渐变面积图、甘特图 |
+| **G6 关系图谱** | 组织架构图、关系网络图、桑基图、流程图、时间线图 |
+| **Infographic** | 流程图、组织架构、思维导图、指标卡片、数据摘要 |
+
+    ### 3. 配置参数说明
+    
+    #### G2 核心参数
+    - `type`: 图表类型 (`line`, `interval`, `point`, `area` 等)
+    - `data`: 数据源数组
+    - `encode`: 字段映射 (`x`, `y`, `color`, `size`)
+    - `coordinate`: 坐标系配置
+    
+    #### G6 核心参数
+    - `data`: 节点 (`nodes`) 与 边 (`edges`) 数据
+    - `layout`: 布局算法 (`force`, `dagre`, `compactBox`)
+    - `behaviors`: 交互行为 (`drag-canvas`, `zoom-canvas`, `collapse-expand`)
+    
+    #### Infographic 核心参数
+    - `DSL`: 极简的声明式文本描述数据与结构。
+    
+    ### 4. 常见问题 (FAQ)
+    
+    **Q: 为什么图表没有显示？**  
+    A: 请检查代码块语言标识是否为 `g2`、`g6` 或 `infographic`；确保配置内容格式正确；检查浏览器控制台是否有语法错误。
+    
+    **Q: 如何调整图表高度？**  
+    A: 默认高度由组件统一控制。若需个性化调整，可在对应组件中修改 `height` 配置。
+    
+    **Q: G6 导出错误 (Uncaught SyntaxError)?**  
+    A: 项目采用 ESM 规范，必须使用 `import { Graph } from '@antv/g6'` 具名导入方式。
     
 
 

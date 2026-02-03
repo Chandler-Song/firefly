@@ -4,6 +4,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { getPostBySlug, Post } from '../utils/markdown'
 import { ArrowLeft, Calendar } from 'lucide-react'
+import G2Chart from '../components/viz/G2Chart'
+import G6Graph from '../components/viz/G6Graph'
+import InfographicChart from '../components/viz/InfographicChart'
 
 interface DetailProps {
   module: string
@@ -67,7 +70,35 @@ export default function Detail({ module }: DetailProps) {
 
         <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none 
           whitespace-pre-wrap leading-relaxed text-lg text-foreground/90">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown 
+            remarkPlugins={[remarkGfm]}
+            components={{
+              code(props) {
+                const { children, className, node, ...rest } = props
+                const matchG2 = /language-g2/.exec(className || '')
+                const matchG6 = /language-g6/.exec(className || '')
+                const matchInfo = /language-infographic/.exec(className || '')
+                
+                if (matchG2) {
+                  return <G2Chart config={String(children).replace(/\n$/, '')} />
+                }
+                
+                if (matchG6) {
+                  return <G6Graph config={String(children).replace(/\n$/, '')} />
+                }
+
+                if (matchInfo) {
+                  return <InfographicChart config={String(children).replace(/\n$/, '')} />
+                }
+                
+                return (
+                  <code className={className} {...rest}>
+                    {children}
+                  </code>
+                )
+              }
+            }}
+          >
             {data.content}
           </ReactMarkdown>
         </div>

@@ -10,6 +10,7 @@ import Tools from './pages/Tools'
 import Books from './pages/Books'
 import Achievements from './pages/Achievements'
 import Notes from './pages/Notes'
+import Visualization from './pages/Visualization'
 import Detail from './pages/Detail'
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
 
           <Route path="/notes" element={<Notes />} /> 
           <Route path="/notes/:slug" element={<Detail module="notes" />} />
+
+          <Route path="/visualization" element={<Visualization />} />
+          <Route path="/visualization/:slug" element={<Detail module="visualization" />} />
           
           <Route path="/books" element={<Books />} />
           <Route path="/achievements" element={<Achievements />} />
