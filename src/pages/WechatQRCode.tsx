@@ -19,7 +19,7 @@ export default function WechatQRCode() {
         <div className="relative bg-card border rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
           <div className="bg-white p-4 rounded-xl inline-block">
             <img
-              src="/wechat-qrcode.png"
+              src={`${import.meta.env.BASE_URL}wechat-qrcode.png`}
               alt="Chandler 的微信二维码"
               className="w-64 h-64 md:w-72 md:h-72 object-contain"
               onError={(e) => {

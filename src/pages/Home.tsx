@@ -36,7 +36,7 @@ export default function Home() {
             <div className="absolute -inset-1 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-full opacity-60 group-hover:opacity-80 blur-sm transition-all duration-500"></div>
             <div className="relative">
               <img
-                src={profile.avatar.path}
+                src={profile.avatar.path.startsWith('http') ? profile.avatar.path : `${import.meta.env.BASE_URL}${profile.avatar.path.replace(/^\//, '')}`}
                 alt={profile.avatar.alt}
                 className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-2 border-border/50 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:border-primary/20"
                 onError={(e) => {
