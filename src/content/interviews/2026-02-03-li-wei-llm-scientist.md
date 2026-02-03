@@ -1,7 +1,7 @@
 ---
 title: "对话首席科学家李伟：大模型时代的通用人工智能之路"
 date: "2026-02-03"
-category: "Interview"
+category: "LLM"
 summary: "本期访谈我们对话智元人工智能实验室首席科学家李伟博士，深度剖析大模型从感知到认知的跃迁，以及未来 24 个月的技术演进蓝图。"
 guestName: "李伟"
 guestTitle: "首席科学家"

@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Github, Linkedin, Mail, MessageCircle } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
+import * as Icons from 'lucide-react'
 import Interview from '../components/Interview'
 import { getModuleContent, Post } from '../utils/markdown'
+import socialLinks from '../data/social.json'
+import profileConfig from '../data/profile.json'
+import type { SocialLink, ProfileConfig } from '../types'
 
 export default function Home() {
   const [latestInterview, setLatestInterview] = useState<Post | null>(null)
@@ -15,10 +19,45 @@ export default function Home() {
     })
   }, [])
 
+  // 过滤首页显示的社交链接
+  const homePageSocials = (socialLinks as SocialLink[]).filter(
+    link => link.showInHomePage !== false
+  )
+
+  const profile = profileConfig as ProfileConfig
+
   return (
     <div className="flex flex-col gap-24">
       {/* Hero Section */}
       <section className="flex flex-col items-center text-center gap-6 py-10">
+        {/* 头像 */}
+        {profile.avatar.enabled && (
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-full opacity-60 group-hover:opacity-80 blur-sm transition-all duration-500"></div>
+            <div className="relative">
+              <img
+                src={profile.avatar.path}
+                alt={profile.avatar.alt}
+                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-2 border-border/50 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:border-primary/20"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.style.display = 'none'
+                  const parent = target.parentElement
+                  if (parent) {
+                    parent.innerHTML = `
+                      <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-muted/80 to-muted/40 border-2 border-border/50 shadow-lg flex items-center justify-center">
+                        <svg class="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    `
+                  }
+                }}
+              />
+            </div>
+          </div>
+        )}
+
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
           打造具有影响力的<span className="text-primary">专业个人品牌</span>
         </h1>
@@ -35,9 +74,21 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex gap-6 mt-4">
-           <a href="#" className="text-muted-foreground hover:text-primary"><Github size={24} /></a>
-           <a href="#" className="text-muted-foreground hover:text-primary"><Linkedin size={24} /></a>
-           <a href="#" className="text-muted-foreground hover:text-primary"><Mail size={24} /></a>
+          {homePageSocials.map((social) => {
+            const Icon = (Icons as any)[social.icon] || Icons.Link
+            return (
+              <a
+                key={social.platform}
+                href={social.url}
+                target={social.openInNewTab !== false ? '_blank' : '_self'}
+                rel={social.openInNewTab !== false ? 'noopener noreferrer' : undefined}
+                aria-label={social.ariaLabel || `访问 ${social.platform}`}
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Icon size={24} />
+              </a>
+            )
+          })}
         </div>
       </section>
 

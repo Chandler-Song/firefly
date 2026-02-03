@@ -3,6 +3,7 @@ import Layout from './layouts/Layout'
 import Home from './pages/Home'
 import Resume from './pages/Resume'
 import Social from './pages/Social'
+import WechatQRCode from './pages/WechatQRCode'
 import Knowledge from './pages/Knowledge'
 import Blog from './pages/Blog'
 import Insights from './pages/Insights'
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/social" element={<Social />} />
+          <Route path="/wechat-qrcode" element={<WechatQRCode />} />
           
           <Route path="/knowledge" element={<Knowledge />} />
           <Route path="/knowledge/:slug" element={<Detail module="knowledge" />} />
@@ -46,7 +48,6 @@ function App() {
           <Route path="/interviews" element={<Interviews />} />
           <Route path="/interviews/:slug" element={<Detail module="interviews" />} />
           
-          <Route path="/books" element={<Books />} />
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/achievements/:slug" element={<Detail module="achievements" />} />
         </Routes>

@@ -1,0 +1,10 @@
+{
+  "name": "Chandler song",
+  "title": "Global Talent Acquisition",
+  "subtitle": "专注高端人才招聘",
+  "avatar": {
+    "enabled": true,
+    "path": "/avatar.jpg",
+    "alt": "Chandler 的头像"
+  }
+}

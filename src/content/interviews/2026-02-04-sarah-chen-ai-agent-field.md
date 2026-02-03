@@ -1,7 +1,7 @@
 ---
 title: "对话 Sarah Chen 博士：从 LLM 到 AI Agent 的范式演进"
 date: "2026-02-04"
-category: "Interview"
+category: "LLM"
 summary: "智元 AI 实验室 Agent 架构负责人 Sarah Chen 博士深度分享：为什么 Agent 是大模型通往通用人工智能（AGI）的必经之路。"
 guestName: "Sarah Chen"
 guestTitle: "Agent 架构负责人"

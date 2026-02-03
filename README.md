@@ -82,6 +82,423 @@ git push origin main
 - [x] **内容引擎**: 支持通过 Markdown 发布博客与知识分享。
 - [x] **响应式设计**: 完美适配移动端与暗黑模式。
 
+## 🔗 社交媒体配置指南 (Social Media Configuration)
+
+项目采用集中式配置管理社交媒体链接，支持通过简单的 JSON 配置实现首页、社交页面等多处统一展示。
+
+### 1. 配置文件位置
+
+社交媒体链接的配置文件位于：`src/data/social.json`
+
+### 2. 配置项字段说明
+
+每个社交平台配置项包含以下字段：
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `platform` | String | ✅ | 平台名称（如 GitHub、LinkedIn、WeChat） |
+| `url` | String | ✅ | 链接地址（支持 https://、mailto:、skype: 等协议） |
+| `icon` | String | ✅ | 图标名称（来自 Lucide React 图标库） |
+| `showInHomePage` | Boolean | ❌ | 是否在首页显示（默认 true） |
+| `ariaLabel` | String | ❌ | 无障碍标签（用于屏幕阅读器） |
+| `openInNewTab` | Boolean | ❌ | 是否在新窗口打开（默认 true） |
+
+### 3. 配置示例
+
+#### 标准外部链接配置
+```json
+{
+  "platform": "GitHub",
+  "url": "https://github.com/chandler-song",
+  "icon": "Github",
+  "showInHomePage": true,
+  "ariaLabel": "访问 Chandler 的 GitHub",
+  "openInNewTab": true
+}
+```
+
+#### 邮件链接配置
+```json
+{
+  "platform": "Email",
+  "url": "mailto:275737875@qq.com",
+  "icon": "Mail",
+  "showInHomePage": true,
+  "ariaLabel": "发送邮件给 Chandler",
+  "openInNewTab": false
+}
+```
+
+#### 内部路由链接配置（微信二维码页面）
+```json
+{
+  "platform": "WeChat",
+  "url": "/wechat-qrcode",
+  "icon": "MessageSquare",
+  "showInHomePage": true,
+  "ariaLabel": "查看 Chandler 的微信二维码",
+  "openInNewTab": false
+}
+```
+
+#### Skype 协议链接配置
+```json
+{
+  "platform": "Skype",
+  "url": "skype:chandler.song?chat",
+  "icon": "Phone",
+  "showInHomePage": true,
+  "ariaLabel": "通过 Skype 联系 Chandler",
+  "openInNewTab": false
+}
+```
+
+### 4. 图标选择指南
+
+项目使用 [Lucide React](https://lucide.dev/icons/) 图标库，以下是常用社交平台的推荐图标：
+
+| 平台 | 推荐图标 | 说明 |
+|------|---------|------|
+| GitHub | `Github` | 原生支持 |
+| LinkedIn | `Linkedin` | 原生支持 |
+| Twitter/X | `Twitter` | 原生支持 |
+| YouTube | `Youtube` | 原生支持 |
+| 邮箱 | `Mail` | 通用邮件图标 |
+| 微信 | `MessageSquare` | 聊天消息框 |
+| Skype | `Phone` | 电话/语音通话 |
+| CSDN | `BookOpen` | 技术博客/文档 |
+| 微博 | `Share2` | 社交分享 |
+| 掘金 | `Code2` | 技术开发平台 |
+| 知乎 | `Users` | 社区/问答 |
+| Telegram | `Send` | 即时通讯 |
+
+### 5. 添加新社交平台
+
+在 `src/data/social.json` 文件的数组中添加新配置项即可：
+
+```json
+[
+  // ... 现有配置 ...
+  {
+    "platform": "知乎",
+    "url": "https://www.zhihu.com/people/chandler-song",
+    "icon": "Users",
+    "showInHomePage": false,
+    "ariaLabel": "访问 Chandler 的知乎主页",
+    "openInNewTab": true
+  }
+]
+```
+
+### 6. 控制首页显示
+
+通过 `showInHomePage` 字段灵活控制哪些社交链接在首页展示：
+
+- **首页显示**：设置 `"showInHomePage": true`
+- **仅在社交页显示**：设置 `"showInHomePage": false`
+- **默认行为**：若不设置该字段，默认为 `true`（显示在首页）
+
+### 7. 使用场景
+
+配置的社交链接会自动在以下位置展示：
+
+1. **首页 Hero 区域**：仅显示 `showInHomePage: true` 的链接
+2. **社交页面** (`/social`)：显示所有配置的社交链接
+3. **其他自定义组件**：可导入 `social.json` 在任意位置使用
+
+### 8. 技术实现说明
+
+- **配置化管理**：所有社交链接集中在 `src/data/social.json`，遵循 DRY 原则
+- **类型安全**：在 `src/types/index.ts` 中定义了 `SocialLink` 接口
+- **动态图标**：通过 `import * as Icons from 'lucide-react'` 动态引用图标组件
+- **过滤逻辑**：在 `Home.tsx` 中使用 `filter` 方法筛选首页显示的链接
+
+### 9. 常见问题
+
+**Q: 如何添加自定义图标？**  
+A: Lucide React 提供了 1600+ 图标。如果找不到合适的，可以使用通用图标如 `Link`、`Globe`、`AtSign` 等。
+
+**Q: 能否使用图片作为图标？**  
+A: 当前架构基于 Lucide React 图标库。如需使用自定义图片，需修改 `Home.tsx` 和 `Social.tsx` 组件的渲染逻辑。
+
+**Q: 微信链接为什么使用内部路由？**  
+A: 微信没有网页版个人主页，因此创建了 `/wechat-qrcode` 页面展示二维码，用户需将二维码图片放在 `public/wechat-qrcode.png`。
+
+**Q: 如何调整社交图标的顺序？**  
+A: 调整 `social.json` 中配置项的顺序即可，系统会按数组顺序渲染。
+
+## 👤 个人头像配置指南 (Avatar Configuration)
+
+项目支持在首页和简历页展示个人头像，通过集中式配置管理实现灵活控制。
+
+### 1. 功能概述
+
+个人头像功能为页面添加了更具个性化和专业感的视觉元素：
+- **首页展示**：头像显示在 Hero 区域顶部，作为个人品牌的视觉焦点
+- **简历页展示**：头像与个人信息组成卡片式布局，提升简历的专业性
+- **配置化管理**：通过 JSON 配置文件控制头像的显示、路径等属性
+- **响应式设计**：自动适配桌面端和移动端，确保在各种设备上的最佳显示效果
+
+### 2. 配置文件说明
+
+#### 配置文件位置
+
+头像配置文件位于：`src/data/profile.json`
+
+#### 配置字段详解
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `name` | String | ✅ | 个人姓名（用于简历页显示） |
+| `title` | String | ✅ | 职位/头衔（如：前端架构师） |
+| `subtitle` | String | ✅ | 个人简介/副标题 |
+| `avatar.enabled` | Boolean | ✅ | 是否启用头像功能 |
+| `avatar.path` | String | ✅ | 头像图片路径（相对于 public 目录） |
+| `avatar.alt` | String | ✅ | 图片替代文本（用于无障碍访问） |
+
+#### 配置示例
+
+```json
+{
+  "name": "Chandler",
+  "title": "前端架构师",
+  "subtitle": "专注于前端开发与架构",
+  "avatar": {
+    "enabled": true,
+    "path": "/avatar.jpg",
+    "alt": "Chandler 的头像"
+  }
+}
+```
+
+### 3. 样式特性
+
+#### 视觉设计
+
+- **圆形头像**：采用 `rounded-full` 实现完美的圆形效果
+- **柔和渐变光晕**：使用 `from-primary/10 via-primary/5 to-transparent` 的三级渐变
+  - 饱和度低至 5%-10%，确保视觉柔和自然
+  - 对角渐变（`to-br`）提供更丰富的层次感
+- **精细边框**：2px 半透明边框（`border-border/50`），与页面整体风格协调
+- **柔和阴影**：
+  - 首页：`shadow-lg`（常规）→ `shadow-xl`（悬停）
+  - 简历页：`shadow-md`（常规）→ `shadow-lg`（悬停）
+
+#### 响应式尺寸
+
+| 设备类型 | 首页尺寸 | 简历页尺寸 |
+|---------|---------|----------|
+| 移动端 | 128×128px | 128×128px |
+| 桌面端 | 160×160px | 144×144px |
+
+#### 交互效果
+
+- **悬停增强**：
+  - 光晕透明度从 60% 提升至 80%（变化幅度仅 20%，过渡平滑）
+  - 边框添加微弱的主题色（`border-primary/20`）
+  - 阴影强度轻微增加
+- **过渡动画**：所有变化均采用 500ms 缓慢过渡（`transition-all duration-500`）
+- **模糊效果**：使用 `blur-sm` 实现细腻的光晕模糊
+
+### 4. 页面集成
+
+#### 首页 (Home.tsx)
+
+- **位置**：Hero Section 顶部，主标题上方
+- **布局**：垂直居中对齐，作为视觉焦点
+- **特点**：
+  - 独立展示，不与其他元素重叠
+  - 光晕效果更明显，强调个人品牌
+  - 尺寸较大，确保视觉冲击力
+
+#### 简历页 (Resume.tsx)
+
+- **位置**：页面顶部个人信息卡片区域
+- **布局**：
+  - 桌面端：头像在左，个人信息在右（横向布局）
+  - 移动端：头像在上，个人信息在下（纵向布局）
+- **特点**：
+  - 卡片式设计，带渐变背景（`from-muted/30 via-muted/10`）
+  - 与姓名、职位、简介信息协调统一
+  - 尺寸适中，保持整体平衡
+
+### 5. 技术实现
+
+#### TypeScript 类型定义
+
+在 `src/types/index.ts` 中定义了 `ProfileConfig` 接口：
+
+```typescript
+export interface ProfileConfig {
+  name: string;
+  title: string;
+  subtitle: string;
+  avatar: {
+    enabled: boolean;
+    path: string;
+    alt: string;
+  };
+}
+```
+
+#### 错误处理机制
+
+当头像图片加载失败时，系统会自动显示美观的 SVG 占位符：
+- **占位符设计**：中性色渐变背景 + 用户图标
+- **颜色方案**：使用 `muted` 色系确保与页面风格一致
+- **自动替换**：通过 `onError` 事件监听实现无感切换
+
+#### 响应式实现
+
+- **Tailwind 断点**：使用 `md:` 前缀区分移动端和桌面端样式
+- **弹性布局**：简历页使用 `flex-col md:flex-row` 实现自适应布局
+- **尺寸适配**：通过 `w-32 h-32 md:w-40 md:h-40` 实现不同设备的尺寸调整
+
+### 6. 使用指南
+
+#### 步骤 1：准备头像图片
+
+1. **选择图片**：
+   - 推荐使用正方形照片
+   - 建议分辨率：至少 400×400px（支持高清显示）
+   - 文件格式：JPG、PNG、WebP 均可
+
+2. **图片命名**：
+   - 建议使用简洁的名称，如 `avatar.jpg` 或 `profile.png`
+   - 避免使用中文或特殊字符
+
+#### 步骤 2：上传图片到项目
+
+将准备好的头像图片放置到 `public/` 目录：
+
+```bash
+cp your-avatar.jpg /path/to/project/public/avatar.jpg
+```
+
+#### 步骤 3：更新配置文件
+
+编辑 `src/data/profile.json`，确保 `avatar.path` 指向正确的图片：
+
+```json
+{
+  "avatar": {
+    "enabled": true,
+    "path": "/avatar.jpg",  // 确保与实际文件名一致
+    "alt": "您的姓名 的头像"
+  }
+}
+```
+
+#### 步骤 4：验证效果
+
+启动开发服务器查看效果：
+
+```bash
+npm run dev
+```
+
+访问以下页面验证头像显示：
+- 首页：`http://localhost:5173/`
+- 简历页：`http://localhost:5173/resume`
+
+#### 临时禁用头像
+
+如需临时隐藏头像，只需将 `enabled` 设置为 `false`：
+
+```json
+{
+  "avatar": {
+    "enabled": false,
+    "path": "/avatar.jpg",
+    "alt": "Chandler 的头像"
+  }
+}
+```
+
+### 7. 最佳实践
+
+#### 图片优化建议
+
+| 优化项 | 推荐值 | 说明 |
+|--------|--------|------|
+| **分辨率** | 400×400px - 800×800px | 平衡清晰度与加载速度 |
+| **文件大小** | < 200KB | 确保快速加载 |
+| **格式选择** | WebP > PNG > JPG | WebP 提供最佳压缩率 |
+| **背景处理** | 纯色或透明背景 | 避免复杂背景影响视觉效果 |
+
+#### 图片命名规范
+
+```text
+✅ 推荐命名方式：
+- avatar.jpg
+- profile.png
+- headshot.webp
+
+❌ 不推荐命名方式：
+- 我的照片.jpg（包含中文）
+- my photo 2024.png（包含空格）
+- IMG_1234.JPG（无语义）
+```
+
+#### 视觉建议
+
+1. **照片质量**：
+   - 使用专业或半专业的照片
+   - 确保光线充足，面部清晰
+   - 背景简洁，避免杂乱元素
+
+2. **构图建议**：
+   - 头部和肩部占画面的 60%-80%
+   - 保持正面或 3/4 侧面角度
+   - 眼神自然，表情亲和
+
+3. **一致性**：
+   - 与其他平台（LinkedIn、GitHub）使用相同或相似的头像
+   - 保持个人品牌形象的连贯性
+
+### 8. 常见问题
+
+**Q: 头像图片不显示怎么办？**  
+A: 请检查以下几点：
+1. 图片文件是否正确放置在 `public/` 目录下
+2. `profile.json` 中的 `path` 是否与实际文件名一致（包括扩展名）
+3. 图片文件是否损坏，可以尝试在浏览器中直接访问 `http://localhost:5173/avatar.jpg`
+4. 如果使用了相对路径，确保路径以 `/` 开头
+
+**Q: 如何更换头像？**  
+A: 有两种方式：
+1. **替换文件**：直接用新图片替换 `public/` 目录下的原头像文件（保持文件名不变）
+2. **更新配置**：上传新图片并修改 `profile.json` 中的 `path` 字段
+
+**Q: 能否使用外部链接的图片？**  
+A: 可以，但不推荐。将 `path` 设置为完整的 URL 即可：
+```json
+{
+  "avatar": {
+    "path": "https://example.com/avatar.jpg"
+  }
+}
+```
+不推荐的原因：
+1. 依赖外部服务的稳定性
+2. 可能影响加载速度
+3. 存在跨域和隐私问题
+
+**Q: 如何调整头像大小？**  
+A: 头像尺寸通过 Tailwind CSS 类控制，如需自定义：
+- 修改 `Home.tsx` 中的 `w-32 h-32 md:w-40 md:h-40`
+- 修改 `Resume.tsx` 中的 `w-32 h-32 md:w-36 md:h-36`
+- 数字表示 Tailwind 单位（1单位 = 0.25rem = 4px）
+
+**Q: 头像显示不清晰怎么办？**  
+A: 确保原图分辨率足够高：
+- 移动端显示最大 160px，建议原图至少 320px（2倍）
+- 桌面端显示最大 160px，建议原图至少 400px
+- 支持高 DPI 屏幕（如 Retina），建议提供 800px 的高清图片
+
+**Q: 占位符图标能否自定义？**  
+A: 可以修改组件代码中的 SVG 路径，或替换为其他 Lucide React 图标。当前使用的是标准用户图标（User Profile），符合大多数场景需求。
+
 ## 📝 内容管理指南 (CRUD 教程)
 
 本节将详细介绍如何管理项目中的六个核心模块：**知识 (Knowledge)、博客 (Blog)、洞察 (Insights)、工具 (Tools)、笔记 (Notes)、成就 (Achievements)**。

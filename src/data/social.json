@@ -1,17 +1,34 @@
 [
   {
+    "platform": "LinkedIn",
+    "url": "https://www.linkedin.com/in/chandlersong",
+    "icon": "Linkedin",
+    "showInHomePage": true,
+    "ariaLabel": "访问 Chandler 的 LinkedIn",
+    "openInNewTab": true
+  },
+  {
     "platform": "GitHub",
     "url": "https://github.com/chandler-song",
-    "icon": "Github"
+    "icon": "Github",
+    "showInHomePage": true,
+    "ariaLabel": "访问 Chandler 的 GitHub",
+    "openInNewTab": true
   },
   {
-    "platform": "LinkedIn",
-    "url": "https://linkedin.com",
-    "icon": "Linkedin"
+    "platform": "Email",
+    "url": "mailto:songqiang51886@163.com",
+    "icon": "Mail",
+    "showInHomePage": true,
+    "ariaLabel": "发送邮件给 Chandler",
+    "openInNewTab": false
   },
   {
-    "platform": "Twitter",
-    "url": "https://twitter.com",
-    "icon": "Twitter"
+    "platform": "WeChat",
+    "url": "/wechat-qrcode",
+    "icon": "MessageSquare",
+    "showInHomePage": true,
+    "ariaLabel": "查看 Chandler 的微信二维码",
+    "openInNewTab": false
   }
 ]
