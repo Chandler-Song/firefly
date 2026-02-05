@@ -62,8 +62,8 @@ export default function Home() {
           打造具有影响力的<span className="text-primary">专业个人品牌</span>
         </h1>
         <p className="text-xl text-muted-foreground max-w-[700px]">
-          专注于前端开发与架构，致力于分享技术洞察与实战经验。
-          通过模块化知识体系，构建持续生长的内容生态。
+          专注于全球高端人才链接，致力于分享行业洞察与实战经验；
+          通过模块化知识体系，构建持续生长的人才生态。
         </p>
         <div className="flex gap-4">
           <Link to="/resume" className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
