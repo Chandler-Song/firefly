@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Interview from '../components/Interview'
@@ -10,6 +10,7 @@ import type { SocialLink, ProfileConfig } from '../types'
 
 export default function Home() {
   const [latestInterview, setLatestInterview] = useState<Post | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     getModuleContent('interviews').then(res => {
@@ -77,6 +78,21 @@ export default function Home() {
         <div className="flex gap-6 mt-4">
           {homePageSocials.map((social) => {
             const Icon = (Icons as any)[social.icon] || Icons.Link
+            const isInternalLink = social.url.startsWith('/') && !social.url.startsWith('//')
+            
+            if (isInternalLink) {
+              return (
+                <Link
+                  key={social.platform}
+                  to={social.url}
+                  aria-label={social.ariaLabel || `访问 ${social.platform}`}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Icon size={24} />
+                </Link>
+              )
+            }
+            
             return (
               <a
                 key={social.platform}
@@ -130,7 +146,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="relative group cursor-pointer" onClick={() => window.location.href = `/interviews/${latestInterview.slug}`}>
+          <div className="relative group cursor-pointer" onClick={() => navigate(`/interviews/${latestInterview.slug}`)}>
             <Interview 
               guest={{
                 name: latestInterview.guestName,

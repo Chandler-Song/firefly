@@ -74,3 +74,100 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ==================== Markdown 内容层级标识样式 ==================== */
+
+/* --- 标题自动编号（优化版） --- */
+/* 将 counter-increment 移到元素本身，与 counter-reset 同级执行，确保正确的执行顺序 */
+.markdown-content {
+  counter-reset: h2-counter 0 h3-counter 0 h4-counter 0;
+}
+
+/* h2: 增加自身计数器，重置子级计数器 */
+.markdown-content h2 {
+  counter-increment: h2-counter;
+  counter-reset: h3-counter 0 h4-counter 0;
+}
+
+/* h3: 增加自身计数器，重置子级计数器 */
+.markdown-content h3 {
+  counter-increment: h3-counter;
+  counter-reset: h4-counter 0;
+}
+
+/* h4: 只增加自身计数器 */
+.markdown-content h4 {
+  counter-increment: h4-counter;
+}
+
+/* ::before 伪元素只负责显示编号 */
+.markdown-content h2::before {
+  content: counter(h2-counter) ". ";
+  color: hsl(var(--primary));
+  font-weight: bold;
+}
+
+.markdown-content h3::before {
+  content: counter(h2-counter) "." counter(h3-counter) " ";
+  color: hsl(var(--muted-foreground));
+  font-weight: normal;
+}
+
+.markdown-content h4::before {
+  content: counter(h2-counter) "." counter(h3-counter) "." counter(h4-counter) " ";
+  color: hsl(var(--muted-foreground));
+  font-weight: normal;
+}
+
+/* --- 嵌套列表层级样式 --- */
+
+/* 无序列表：不同层级使用不同圆点 */
+.markdown-content ul {
+  list-style-type: disc;           /* 第1层：实心圆 ● */
+}
+.markdown-content ul ul {
+  list-style-type: circle;         /* 第2层：空心圆 ○ */
+}
+.markdown-content ul ul ul {
+  list-style-type: square;         /* 第3层：实心方块 ■ */
+}
+.markdown-content ul ul ul ul {
+  list-style-type: disc;           /* 第4层：循环回实心圆 */
+}
+
+/* 有序列表：不同层级使用不同编号格式 */
+.markdown-content ol {
+  list-style-type: decimal;        /* 第1层：1. 2. 3. */
+}
+.markdown-content ol ol {
+  list-style-type: lower-alpha;    /* 第2层：a. b. c. */
+}
+.markdown-content ol ol ol {
+  list-style-type: lower-roman;    /* 第3层：i. ii. iii. */
+}
+.markdown-content ol ol ol ol {
+  list-style-type: decimal;        /* 第4层：循环回数字 */
+}
+
+/* 混合嵌套：有序列表内的无序列表 */
+.markdown-content ol ul {
+  list-style-type: disc;
+}
+.markdown-content ul ol {
+  list-style-type: decimal;
+}
+
+/* 确保列表标记可见 */
+.markdown-content ul,
+.markdown-content ol {
+  list-style-position: outside;
+  padding-left: 1.5em;
+}
+
+/* 嵌套列表缩进 */
+.markdown-content ul ul,
+.markdown-content ul ol,
+.markdown-content ol ul,
+.markdown-content ol ol {
+  margin-left: 0.5em;
+}

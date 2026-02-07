@@ -2,7 +2,7 @@
 title: "Open Source Recruitment Tools"
 date: "2026-02-07"
 category: "Recruitment Automation Tool"
-summary: "一系列基于Python开发的招聘工具，发布在PyPI上，涵盖中文姓名检测、文本分类、Excel处理、LinkedIn爬虫等功能。"
+summary: "一系列基于Python开发的招聘工具，发布在PyPI上，涵盖中文姓名检测、文本分类、Excel处理、数据自动化获取等功能。"
 ---
 
 # 开源招聘工具集

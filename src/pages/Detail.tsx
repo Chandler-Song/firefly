@@ -70,7 +70,10 @@ export default function Detail({ module }: DetailProps) {
             <div className="mt-8 pt-6 border-t">
               <h3 className="text-xl font-bold mb-4">更多背景</h3>
               <div className="markdown-content prose prose-neutral prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                >
                   {data.content}
                 </ReactMarkdown>
               </div>

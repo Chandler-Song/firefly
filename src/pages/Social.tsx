@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import socialLinks from '../data/social.json'
 import * as Icons from 'lucide-react'
 
@@ -10,14 +11,10 @@ export default function Social() {
       <div className="grid grid-cols-1 gap-4">
         {socialLinks.map((link) => {
           const Icon = (Icons as any)[link.icon] || Icons.Link
-          return (
-            <a
-              key={link.platform}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between p-6 rounded-xl border bg-card hover:border-primary hover:shadow-md transition-all group"
-            >
+          const isInternalLink = link.url.startsWith('/') && !link.url.startsWith('//')
+          
+          const content = (
+            <>
               <div className="flex items-center gap-4">
                 <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                   <Icon size={24} />
@@ -25,6 +22,32 @@ export default function Social() {
                 <span className="text-xl font-semibold">{link.platform}</span>
               </div>
               <Icons.ExternalLink className="text-muted-foreground group-hover:text-primary transition-colors" size={20} />
+            </>
+          )
+          
+          const className = "flex items-center justify-between p-6 rounded-xl border bg-card hover:border-primary hover:shadow-md transition-all group"
+          
+          if (isInternalLink) {
+            return (
+              <Link
+                key={link.platform}
+                to={link.url}
+                className={className}
+              >
+                {content}
+              </Link>
+            )
+          }
+          
+          return (
+            <a
+              key={link.platform}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={className}
+            >
+              {content}
             </a>
           )
         })}

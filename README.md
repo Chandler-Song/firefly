@@ -743,6 +743,197 @@ data
     
     **Q: G6 导出错误 (Uncaught SyntaxError)?**  
     A: 项目采用 ESM 规范，必须使用 `import { Graph } from '@antv/g6'` 具名导入方式。
-    
+
+## 🎬 音视频嵌入指南 (Media Embedding Guide)
+
+项目支持在 Markdown 内容中嵌入音频和视频，提供两种配置方式满足不同场景需求。
+
+### 1. 方式一：采访模块专用 - multimedia 字段
+
+仅适用于 `interviews` 模块，通过 Frontmatter 中的 `multimedia` 数组配置多媒体内容。
+
+#### 配置格式
+
+```markdown
+---
+title: "采访标题"
+date: "2026-02-07"
+guestName: "张三"
+guestTitle: "AI 研究员"
+guestOrg: "某公司"
+guestAvatar: "/avatar.jpg"
+guestDescription: "嘉宾简介"
+guestAchievements: ["成就1", "成就2"]
+multimedia: [
+  {"type": "video", "url": "/videos/interview.mp4", "caption": "采访现场"},
+  {"type": "audio", "url": "/audio/podcast.mp3", "caption": "播客录音"},
+  {"type": "image", "url": "/images/photo.jpg", "caption": "合影留念"}
+]
+interviewRecords: [
+  {"timestamp": "00:00", "question": "问题1", "answer": "回答1"}
+]
+---
+```
+
+#### 支持的类型
+
+| type | 说明 | 渲染效果 |
+|------|------|----------|
+| `video` | 视频文件 | HTML5 video 播放器 |
+| `audio` | 音频文件 | HTML5 audio 播放器（带动效图标） |
+| `image` | 图片文件 | 响应式图片展示 |
+
+#### 布局特性
+
+- **单张媒体**：居中显示，最大宽度限制
+- **多张媒体**：响应式网格布局（桌面端双列，移动端单列）
+- **交互效果**：悬停时图片轻微放大，带阴影增强
+
+### 2. 方式二：通用方式 - HTML 标签
+
+由于 `Detail.tsx` 使用了 `rehypeRaw` 插件，**所有模块都支持直接在 Markdown 中编写 HTML 标签**嵌入音视频。
+
+#### 视频嵌入
+
+**本地视频文件**
+```html
+<video controls width="100%" style="border-radius: 8px;">
+  <source src="/videos/demo.mp4" type="video/mp4">
+  您的浏览器不支持视频播放
+</video>
+```
+
+**外部视频直链**
+```html
+<video controls width="100%">
+  <source src="https://example.com/video.mp4" type="video/mp4">
+</video>
+```
+
+**嵌入第三方平台（B站、YouTube等）**
+```html
+<iframe 
+  src="https://player.bilibili.com/player.html?bvid=BV1xx411c7XX" 
+  width="100%" 
+  height="600" 
+  frameborder="0" 
+  allowfullscreen>
+</iframe>
+```
+
+#### 音频嵌入
+
+**本地音频文件**
+```html
+<audio controls style="width:100%; margin: 16px 0;">
+  <source src="/audio/podcast.mp3" type="audio/mpeg">
+  您的浏览器不支持音频播放
+</audio>
+```
+
+**外部音频直链**
+```html
+<audio controls style="width:100%;">
+  <source src="https://example.com/audio.mp3" type="audio/mpeg">
+</audio>
+```
+
+### 3. 文件存放位置
+
+| 类型 | 本地存放路径 | URL 引用方式 |
+|------|-------------|-------------|
+| 视频文件 | `public/videos/demo.mp4` | `/videos/demo.mp4` |
+| 音频文件 | `public/audio/podcast.mp3` | `/audio/podcast.mp3` |
+| 外部资源 | - | 使用完整 URL |
+
+### 4. 完整示例
+
+以下是一个包含音视频的博客文章示例：
+
+```markdown
+---
+title: "技术分享：AI 发展趋势"
+date: "2026-02-07"
+category: "Tech"
+summary: "本期视频分享 AI 最新进展"
+---
+
+# AI 发展趋势解读
+
+## 视频回顾
+
+<video controls width="100%" style="border-radius: 8px;">
+  <source src="/videos/ai-trend-2026.mp4" type="video/mp4">
+</video>
+
+## 播客音频版
+
+<audio controls style="width:100%; margin: 16px 0;">
+  <source src="/audio/ai-podcast-ep1.mp3" type="audio/mpeg">
+</audio>
+
+## 相关内容
+
+这是正文内容...
+```
+
+### 5. 两种方式对比
+
+| 特性 | multimedia 字段 | HTML 标签 |
+|------|----------------|----------|
+| **适用模块** | 仅 interviews | 所有模块 |
+| **配置位置** | Frontmatter | Markdown 正文 |
+| **布局控制** | 自动网格布局 | 手动控制样式 |
+| **字幕支持** | 支持 caption | 需手动添加 |
+| **灵活性** | 结构化配置 | 完全自定义 |
+| **推荐场景** | 采访多媒体画廊 | 博客/文章内嵌 |
+
+### 6. 注意事项
+
+1. **文件格式**：
+   - 视频推荐：MP4 (H.264 编码)
+   - 音频推荐：MP3 或 AAC
+   - 确保格式兼容主流浏览器
+
+2. **文件大小**：
+   - 建议视频压缩至合理大小（< 50MB）
+   - 大文件会影响页面加载速度
+
+3. **路径格式**：
+   - 本地文件路径必须以 `/` 开头
+   - 外部链接使用完整 URL（包含 `https://`）
+
+4. **跨域问题**：
+   - 外部视频/音频可能受 CORS 限制
+   - 建议将重要媒体文件存放在 `public/` 目录
+
+5. **移动端适配**：
+   - 使用 `width="100%"` 确保响应式显示
+   - iOS 设备部分视频需要用户手动播放
+
+### 7. 常见问题
+
+**Q: 视频无法播放怎么办？**  
+A: 检查以下几点：
+1. 文件是否正确放置在 `public/` 目录下
+2. 路径是否以 `/` 开头
+3. 视频格式是否为浏览器支持的格式（推荐 MP4）
+4. 可尝试在浏览器直接访问视频 URL 验证
+
+**Q: 如何添加视频封面图？**  
+A: 使用 `poster` 属性：
+```html
+<video controls poster="/images/cover.jpg">
+  <source src="/videos/demo.mp4" type="video/mp4">
+</video>
+```
+
+**Q: 能否自动播放视频？**  
+A: 可以添加 `autoplay muted` 属性，但注意：
+- 大多数浏览器要求自动播放的视频必须静音
+- 自动播放可能影响用户体验，请谨慎使用
+
+**Q: B站视频嵌入后无法播放？**  
+A: B站 iframe 嵌入需要使用正确的播放器 URL 格式，并确保视频允许外链播放。
 
 
