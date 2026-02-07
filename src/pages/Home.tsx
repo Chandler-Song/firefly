@@ -59,11 +59,12 @@ export default function Home() {
         )}
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-          打造具有影响力的<span className="text-primary">专业个人品牌</span>
+
+        战略人才洞察 | 技术驱动招聘 | 顶尖人才猎手
+
         </h1>
         <p className="text-xl text-muted-foreground max-w-[700px]">
-          专注于全球高端人才链接，致力于分享行业洞察与实战经验；
-          通过模块化知识体系，构建持续生长的人才生态。
+        致力于洞察与链接全球顶尖人才，通过分享最前沿的行业洞见，构建持续进化、赋能增长的人才生态系统。
         </p>
         <div className="flex gap-4">
           <Link to="/resume" className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
@@ -143,9 +144,9 @@ export default function Home() {
               multimedia={latestInterview.multimedia || []}
             />
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
-              <div className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+              {/* <div className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
                 点击阅读完整访谈
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

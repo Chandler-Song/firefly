@@ -2,7 +2,7 @@
 title: "年度 Top Biller 荣誉"
 date: "2020-01-15"
 category: "Career"
-summary: "凭借年度个人业绩排名公司第一，蝉联年度 Top Biller 称号，创造了单月回款额新纪录。"
+summary: "凭借年度个人业绩排名公司第一，蝉联年度 Top Biller 称号。"
 ---
 
 # 年度 Top Biller 荣誉

@@ -109,7 +109,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="border-t py-6 md:py-0">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row px-4">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built with React & Vite. © 2026 Personal Brand.
+            Built with React and Vite. © 2026 Chandler Song.
           </p>
         </div>
       </footer>

@@ -1,13 +1,13 @@
 ---
-title: "对话 Sarah Chen 博士：从 LLM 到 AI Agent 的范式演进"
+title: "对话 Philip Chen 博士：从 LLM 到 AI Agent 的范式演进"
 date: "2026-02-04"
 category: "LLM"
-summary: "智元 AI 实验室 Agent 架构负责人 Sarah Chen 博士深度分享：为什么 Agent 是大模型通往通用人工智能（AGI）的必经之路。"
-guestName: "Sarah Chen"
+summary: "智元 AI 实验室 Agent 架构负责人 Philip Chen 博士深度分享：为什么 Agent 是大模型通往通用人工智能（AGI）的必经之路。"
+guestName: "Philip Chen"
 guestTitle: "Agent 架构负责人"
 guestOrg: "智元 AI 实验室"
-guestAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
-guestDescription: "Sarah Chen 博士毕业于斯坦福大学，是自主智能体（Autonomous Agents）领域的先驱研究者。她主导开发的多个开源 Agent 框架在全球范围内被广泛应用，致力于解决 Agent 在长期记忆、工具调用与多机协作中的复杂性难题。"
+guestAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=wangdana"
+guestDescription: "Philip Chen 博士毕业于斯坦福大学，是自主智能体（Autonomous Agents）领域的先驱研究者。她主导开发的多个开源 Agent 框架在全球范围内被广泛应用，致力于解决 Agent 在长期记忆、工具调用与多机协作中的复杂性难题。"
 guestAchievements: ["斯坦福人工智能实验室杰出校友", "ACM 杰出演讲者", "Agentic Workflow 架构标准发起人"]
 interviewRecords: [
   {
@@ -30,31 +30,27 @@ multimedia: [
   {
     "type": "image",
     "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1000&auto=format&fit=crop",
-    "caption": "Sarah Chen 博士在 2026 全球智能体开发者大会展示 Agent 协同架构"
+    "caption": "2026 全球智能体开发者大会展示 Agent 协同架构"
   },
   {
     "type": "image",
     "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
     "caption": "智元 AI 实验室研发的跨软件 Agent 调度链路图"
-  },
-  {
-    "type": "image",
-    "url": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop",
-    "caption": "访谈现场：探讨 Agentic Workflow 的标准化路径"
   }
+
 ]
 ---
 
 # 访谈背景
 
-随着大模型从单纯的对话向任务执行进化，AI Agent（人工智能体）已成为 2026 年技术圈最炙手可热的话题。本次我们邀请到了在 Agent 架构设计领域具有深厚造诣的 Sarah Chen 博士，她将带我们深入了解 Agent 幕后的“大脑”运作逻辑。
+随着大模型从单纯的对话向任务执行进化，AI Agent（人工智能体）已成为 2026 年技术圈最炙手可热的话题。本次我们邀请到了在 Agent 架构设计领域具有深厚造诣的 Philip Chen 博士，她将带我们深入了解 Agent 幕后的“大脑”运作逻辑。
 
 # 核心观点
 
-Sarah 认为，Agent 的真正力量不在于模型有多大，而在于其对工具的调遣能力和对复杂环境的适应性。
+Philip 认为，Agent 的真正力量不在于模型有多大，而在于其对工具的调遣能力和对复杂环境的适应性。
 
-> “未来的软件将不再是静态的功能集合，而是具备自我进化能力的智能实体。” —— Sarah Chen
+> “未来的软件将不再是静态的功能集合，而是具备自我进化能力的智能实体。” —— Philip Chen
 
 # 结语
 
-Agent 时代的大幕刚刚开启。正如 Sarah 所言，我们正站在一个新的起点上，重新定义人类与数字世界的协作方式。
+Agent 时代的大幕刚刚开启。正如 Philip 所言，我们正站在一个新的起点上，重新定义人类与数字世界的协作方式。
